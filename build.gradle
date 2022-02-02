@@ -1,0 +1,47 @@
+plugins {
+	id 'org.springframework.boot' version '2.5.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.br.elton.observability'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+
+	implementation('org.springframework.boot:spring-boot-starter-web:2.5.5')
+			{
+				exclude group: 'spring-boot-starter-logging', module: 'spring-boot-starter-logging'
+			}
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation group: 'de.siegmar', name: 'logback-gelf', version: '2.0.0'
+
+	//Prometheus
+	implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.7.0'
+
+	//actuator
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.5.5'
+}
+
+test {
+	useJUnitPlatform()
+}
+
+bootJar {
+	launchScript()
+}
+
+jar {
+	baseName = 'app-observability'
+}
+
+springBoot {
+	buildInfo()
+}
